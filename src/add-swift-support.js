@@ -131,13 +131,6 @@ module.exports = context => {
               console.log('Update IOS build setting ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES to: YES', 'for build configuration', buildConfig.name);
             }
 
-            const frameworkPath = "@executable_path/Frameworks";
-            const searchPaths = xcodeProject.getBuildProperty('LD_RUNPATH_SEARCH_PATHS', buildConfig.name) || '';
-            if (!searchPaths.includes(frameworkPath)) {
-              xcodeProject.updateBuildProperty('LD_RUNPATH_SEARCH_PATHS', `${searchPaths} "${frameworkPath}"`.trim() , buildConfig.name);
-              console.log('Update IOS build setting LD_RUNPATH_SEARCH_PATHS to: @executable_path/Frameworks', 'for build configuration', buildConfig.name);
-            }
-
             if (typeof xcodeProject.getBuildProperty('SWIFT_VERSION', buildConfig.name) === 'undefined') {
               if (config.getPreference('UseLegacySwiftLanguageVersion', 'ios')) {
                 xcodeProject.updateBuildProperty('SWIFT_VERSION', '2.3', buildConfig.name);
