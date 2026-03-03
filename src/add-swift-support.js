@@ -60,8 +60,10 @@ module.exports = context => {
       }
 
       projectName = config.name();
-      projectPath = path.join(platformPath, projectName);
-      pbxprojPath = path.join(platformPath, projectName + '.xcodeproj', 'project.pbxproj');
+      // cordova-ios 8.0.0 renamed the project directory from the app name to 'App'
+      const projectDirName = fs.existsSync(path.join(platformPath, projectName + '.xcodeproj')) ? projectName : 'App';
+      projectPath = path.join(platformPath, projectDirName);
+      pbxprojPath = path.join(platformPath, projectDirName + '.xcodeproj', 'project.pbxproj');
       xcodeProject = xcode.project(pbxprojPath);
       pluginsPath = path.join(projectPath, 'Plugins');
 
